@@ -1,0 +1,18 @@
+pushToFiltersHandleForm = (e) => {
+        console.log(e.target.value)
+        if (this.state.filtersForm.length > 0) {
+            let index = this.state.filtersForm.find((name) => name === e.target.value);
+            if (index !== e.target.label) {
+                this.setState(prevState => ({filters: [...this.state.filtersForm, e.target.value]}));
+            } else {
+
+                this.setState({
+                    filtersForm: this.state.filtersForm.filter(function (country) {
+                        return country !== e.target.value
+                    })
+                });
+            }
+        } else {
+            this.setState(prevState => ({filtersForm: [...this.state.filtersForm, e.target.value]}));
+        }
+    }

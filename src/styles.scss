@@ -1,0 +1,394 @@
+@use "sass:math";
+@use "sass:color";
+@use "sass:map";
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+$colorDif: 0.2;
+$offsetFactor: 3;
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url(./assets/montserrat.ttf);
+}
+
+@function contrastColor($color, $level) {
+  $luminace: math.div(color.red($color) * 0.299 + color.green($color) * 0.587 + color.blue($color) * 0.114, 255);
+
+  @if $level ==1 {
+    @if $luminace >0.5 {
+      @return $gray-800;
+    } @else {
+      @return $gray-300;
+    }
+  } @else if $level ==2 {
+    @if $luminace >0.5 {
+      @return $gray-700;
+    } @else {
+      @return $gray-400;
+    }
+  }
+}
+
+@function make-theme($theme, $color) {
+  $map: (body: $color,
+          text: contrastColor($color, 1),
+          text-2: contrastColor($color, 2));
+  @return $map;
+}
+
+$theme-names: (
+  //"light": $body-secondary-bg,
+        "dark": #383838
+);
+
+$themes: (
+);
+
+@each $theme,
+$color in $theme-names {
+  $themes: map.deep-merge($themes, ($theme: make-theme($theme, $color)));
+}
+
+@mixin text {
+  font-family: 'Montserrat';
+  color: map-get($themes, "light", text);
+
+  @media (prefers-color-scheme: dark) {
+    color: map-get($themes, "dark", text);
+  }
+}
+
+@mixin text-2 {
+  font-family: 'Montserrat';
+  color: map-get($themes, "light", text-2);
+
+  @media (prefers-color-scheme: dark) {
+    color: map-get($themes, "dark", text-2);
+  }
+}
+
+@mixin text-styles {
+  flex: 200px;
+  font-size: larger;
+  margin: 10px;
+
+  .name {
+    font-size: xx-large;
+    margin-bottom: 0;
+  }
+
+  .company {
+    @include text-2;
+
+    font-size: x-large;
+    margin-bottom: 0;
+  }
+
+  .country {
+    @include text-2;
+    margin-bottom: 0;
+  }
+
+  .second-text {
+    @include text-2;
+
+    font-size: large;
+    margin-bottom: 0;
+    margin-top: 1em;
+  }
+
+  span {
+    margin-bottom: 1em;
+    display: block;
+    line-height: 1.2em;
+  }
+}
+
+$colors: (
+        "pink": $pink-400,
+        "green": $green-400,
+        "blue": $blue-400,
+        "red": $red-400,
+        "purple": $purple-400
+);
+
+@each $color-name,
+$color in $colors {
+  .glow-btn-#{$color-name} {
+    background: radial-gradient(color.adjust($color, $lightness: 10%), $color);
+    border-radius: 50px;
+    border: none;
+    padding: 10px 15px 10px 15px;
+    font-size: large;
+    font-weight: bold;
+    color: map-get($themes, "dark", text);
+    box-shadow: 0px 0px 20px 0px color.adjust($color, $alpha: -0.2);
+    margin: 10px;
+
+    &:active {
+      box-shadow: 0px 0px 20px 2px color.adjust($color, $alpha: -0.2);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background: radial-gradient($color, color.adjust($color, $lightness: -10%));
+      color: map-get($themes, "dark", text-2);
+      box-shadow: 0px 0px 15px 0px color.adjust($color, $lightness: -5%, $alpha: -0.2);
+
+      &:active {
+        box-shadow: 0px 0px 15px 2px color.adjust($color, $lightness: -5%, $alpha: -0.2);
+      }
+    }
+  }
+
+  .glow-text-form-#{$color-name} {
+    @include text;
+    gap: 10px;
+    font-size: large;
+    padding: 10px 15px 10px 15px;
+    display: inline-block;
+    width: 60%;
+    border-radius: 50px;
+    background: linear-gradient(map-get($themes, "light", body), map-get($themes, "light", body)) padding-box,
+    linear-gradient(45deg, color.adjust($color, $lightness: 10%), color.adjust($color, $lightness: 20%)) border-box;
+    border: 3px solid transparent;
+    box-shadow: 0px 0px 10px 2px color.adjust($color, $alpha: -0.5);
+
+    &:focus {
+      outline: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(map-get($themes, "dark", body), map-get($themes, "dark", body)) padding-box,
+      linear-gradient(45deg, color.adjust($color, $lightness: -15%), color.adjust($color, $lightness: -25%)) border-box;
+      box-shadow: 0px 0px 10px 2px color.adjust($color, $lightness: -5%, $alpha: -0.5);
+    }
+  }
+
+  .cell-#{$color-name} {
+    @include text;
+
+    text-align: left;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px 2px color.adjust($color, $alpha: -0.5);
+    padding: 5px;
+    //flex: 150px;
+    background: radial-gradient(color.adjust($color, $alpha: -0.75), transparent);
+
+    @media (prefers-color-scheme: dark) {
+      background: radial-gradient(color.adjust($color, $alpha: -0.9), transparent);
+    }
+  }
+
+  .col-12 {
+    text-align: center;
+  }
+
+  .glow-card-#{$color-name} {
+    @include text;
+
+    text-align: left;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 0px 10px 2px color.adjust($color, $alpha: -0.5);
+    padding: 10px;
+    flex: 300px;
+    background: radial-gradient(color.adjust($color, $alpha: -0.75), transparent);
+
+    @media (prefers-color-scheme: dark) {
+      background: radial-gradient(color.adjust($color, $alpha: -0.9), transparent);
+    }
+
+    .card-info {
+      display: flex;
+      flex-wrap: wrap;
+
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 250px;
+        height: max-content;
+      }
+
+      .card-text {
+        @include text-styles;
+      }
+    }
+
+
+    .buttons {
+      margin-left: 5px;
+      margin-bottom: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .cal {
+        @extend .glow-btn-#{$color-name};
+      }
+
+      .more {
+        @if $color-name != "blue" {
+          @extend .glow-btn-blue;
+        } @else {
+          @extend .glow-btn-green;
+        }
+      }
+
+      button {
+        max-width: min-content;
+        min-width: 5em;
+        margin: 0 !important;
+
+        path {
+          fill: map-get($themes, "dark", text);
+
+          @media (prefers-color-scheme: dark) {
+            fill: map-get($themes, "dark", text-2);
+          }
+        }
+      }
+    }
+  }
+}
+
+.delete-button {
+  @extend .buttons;
+  margin-left: 0;
+  position: center;
+}
+
+
+.material-nav {
+  background-color: map-get($themes, "light", body);
+  box-shadow: 0px 0px 5px 2px #0000001A;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: map-get($themes, "dark", body);
+  }
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  flex: auto;
+  gap: 10px;
+  padding: 10px;
+  flex-shrink: 0;
+  flex-grow: 1;
+  //min-width: 400px;
+}
+
+.row {
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: 100px;
+  @media all and (max-width: 700px) {
+    width: 100%;
+  }
+}
+
+.offcanvas-size-xl {
+  --#{$prefix}offcanvas-width: min(95vw, 600px) !important;
+}
+
+.offcanvas-size-xxl {
+  --#{$prefix}offcanvas-width: min(95vw, 80%) !important;
+}
+
+.offcanvas-size-md { /* add Responsivenes to default offcanvas */
+  --#{$prefix}offcanvas-width: min(95vw, 400px) !important;
+}
+
+.offcanvas-size-sm {
+  --#{$prefix}offcanvas-width: min(95vw, 250px) !important;
+}
+
+.row-cell {
+  flex-shrink: 0;
+  flex-grow: 1;
+  //flex-basis: 100px;
+  //margin: 5%;
+  //max-height: 100px;
+}
+
+.week {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.pillar {
+  display: flex;
+  justify-content: center;
+}
+
+.box-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  //gap: 10px;
+  //padding: 10px;
+}
+
+#med {
+  @include text-styles();
+
+  .main-info {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+
+    img {
+      display: block;
+      width: 400px;
+      height: auto;
+
+      @media screen and (max-width: 450px) {
+        width: 100%;
+      }
+
+      border: 2px solid $pink-400;
+      border-radius: 20px;
+      box-shadow: 0px 0px 10px 2px color.adjust($pink-400, $alpha: -0.5);
+    }
+
+    button {
+      display: block;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      @extend .glow-btn-pink;
+    }
+  }
+}
+
+.space {
+  margin-top: 20px;
+}
+
+#farmallect {
+  font-size: xx-large;
+  font-weight: bold;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+// корректность работы параметров для скролла проверялась только на хромиуме
+body {
+  background: map-get($themes, "light", body);
+
+  @media (prefers-color-scheme: dark) {
+    background: map-get($themes, "dark", body);
+  }
+
+  @include text;
+  overflow: overlay;
+}
