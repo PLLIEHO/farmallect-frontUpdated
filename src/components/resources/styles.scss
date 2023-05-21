@@ -2,14 +2,14 @@
 @use "sass:color";
 @use "sass:map";
 
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap/scss/bootstrap';
 
 $colorDif: 0.2;
 $offsetFactor: 3;
 
 @font-face {
   font-family: 'Montserrat';
-  src: url(./assets/montserrat.ttf);
+  src: url(assets/montserrat.ttf);
 }
 
 @function contrastColor($color, $level) {

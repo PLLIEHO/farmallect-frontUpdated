@@ -1,13 +1,14 @@
 import React from "react";
-import "./styles.scss";
+import "../resources/styles.scss";
 import {Navigate, redirect} from "react-router-dom";
+
 
 class TableElement extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             redirect: false,
-            link: 'medicine/:'.concat(props.id)
+            link: '/:'.concat(props.id)
         }
     }
 
@@ -24,11 +25,23 @@ class TableElement extends React.Component {
                                 <div className="card-info">
                                     <img src={this.props.img}/>
                                     <div className="card-text">
-                                        <span className="name">{this.props.name}</span>
+                                        <span className="name">{
+                                            this.props.name.length > 46 ?
+                                                this.props.name.substring(0, 46) + "..." : this.props.name
+                                        }</span>
                                         <span className="company">{this.props.company}</span>
                                         <span className="country">{this.props.country}</span>
                                         <span className="second-text">Состав:</span>
-                                        <span>{this.props.ingreds}</span>
+                                        <span>{
+                                            this.props.ingreds.map(
+                                                (ing, i) => (
+                                                    i < this.props.ingreds.length - 1 ?
+                                                        <>{ing}, </> : <>{ing}</>
+
+                                                )
+                                            )
+
+                                        }</span>
                                     </div>
                                 </div>
                                 <div className="buttons">

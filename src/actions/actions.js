@@ -9,9 +9,18 @@ export const clear = () => ({
     type: 'CLEAR'
 })
 
-export const remove = (day, time, order) => ({
+export const remove = (day, time, id) => ({
     type: 'REMOVE',
     day: day,
     time: time,
-    order: order
+    id: id
+})
+
+export const addCounter = (id) => ({
+    type: 'ADDCOUNTER',
+    id: id
+})
+export const removeCounter = (i) => ({
+    type: 'REMOVECOUNTER',
+    i: i
 })

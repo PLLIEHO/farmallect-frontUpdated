@@ -1,8 +1,8 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Main from './main'
-import Graph from "./graph.component";
-import Schedule from "./schedule";
+import Main from './components/main'
+import Graph from "./components/graph.component";
+import Schedule from "./components/schedule/schedule";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {createStore} from "redux";
 import allReducers from "./reducers";
@@ -15,7 +15,7 @@ const router = createBrowserRouter(
             element: <Main/>,
         },
         {
-            path: "medicine/:id",
+            path: "/:id",
             element: <Graph/>
         }
     ],
