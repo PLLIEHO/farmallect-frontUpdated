@@ -31,22 +31,56 @@ class Schedule_Portable extends React.Component {
                 country: "",
                 company: ""
             },
-            goodToasts: [],
-            badToasts: []
+            goodToasts: {toasts: [], good: 1},
+            badToasts: {toasts: [], good: 0}
         }
     };
 
     buttonHandler = (e) => {
-        if (true) {//TODO: проверочка на compatibility
-
-            // this.props.addCounter(this.props.id);
-            let toasts = this.state.goodToasts;
-            toasts.push(this.props.id)
-            this.setState({goodToasts: toasts})
-            this.props.funct(this.state.goodToasts)
-            console.log(this.state.goodToasts[0])
-            this.props.add(parseInt(e.target.value), parseInt(e.target.id), this.props.id);
+        let answer = true;
+        for (let i = 0; i < this.props.table.table[parseInt(e.target.id)][parseInt(e.target.value)].length; i++) {
+            const toSend = {
+                id1: parseInt(this.props.id),
+                id2: parseInt(this.props.table.table[parseInt(e.target.id)][parseInt(e.target.value)][i])
+            }
+            const requestOptions = {
+                method: 'POST',
+                data: {},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(toSend)
+            };
+            fetch("/api/med/compatibility", requestOptions)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        if (!result.compatible) {
+                            answer = false;
+                        }
+                    },
+                    (error) => {
+                    }
+                )
         }
+
+        setTimeout(() => {
+            if (answer) {
+                let toasts = this.state.goodToasts;
+                toasts.toasts.push(this.props.id)
+                this.setState({goodToasts: toasts})
+                this.props.funct(this.state.goodToasts)
+                console.log(this.state.goodToasts[0])
+                this.props.add(parseInt(e.target.value), parseInt(e.target.id), this.props.id);
+            } else {
+                let toasts = this.state.badToasts;
+                toasts.toasts.push(this.props.id)
+                this.setState({badToasts: toasts})
+                this.props.funct(this.state.badToasts)
+                console.log(this.state.goodToasts[0])
+            }
+        }, 1000)
         //console.log(this.props.table.table[parseInt(e.target.id)][parseInt(e.target.value)])
     }
 
