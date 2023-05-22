@@ -1,5 +1,4 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from './components/main'
 import Graph from "./components/graph.component";
 import Schedule from "./components/schedule/schedule";

@@ -18,28 +18,34 @@ $offsetFactor: 3;
   @if $level ==1 {
     @if $luminace >0.5 {
       @return $gray-800;
-    } @else {
+    }
+
+    @else {
       @return $gray-300;
     }
-  } @else if $level ==2 {
+  }
+
+  @else if $level ==2 {
     @if $luminace >0.5 {
-      @return $gray-700;
-    } @else {
-      @return $gray-400;
+      @return $gray-600;
+    }
+
+    @else {
+      @return $gray-500;
     }
   }
 }
 
 @function make-theme($theme, $color) {
   $map: (body: $color,
-          text: contrastColor($color, 1),
-          text-2: contrastColor($color, 2));
+    text: contrastColor($color, 1),
+    text-2: contrastColor($color, 2));
   @return $map;
 }
 
 $theme-names: (
-  //"light": $body-secondary-bg,
-        "dark": #383838
+  "light": #fafafa,
+  "dark": #383838
 );
 
 $themes: (
@@ -70,17 +76,18 @@ $color in $theme-names {
 
 @mixin text-styles {
   flex: 200px;
-  font-size: larger;
+  font-size: x-large;
   margin: 10px;
+  overflow-wrap: anywhere;
 
   .name {
-    font-size: xx-large;
+    @include text;
+    font-size: x-large;
     margin-bottom: 0;
   }
 
   .company {
     @include text-2;
-
     font-size: x-large;
     margin-bottom: 0;
   }
@@ -91,7 +98,7 @@ $color in $theme-names {
   }
 
   .second-text {
-    @include text-2;
+    @include text;
 
     font-size: large;
     margin-bottom: 0;
@@ -99,18 +106,19 @@ $color in $theme-names {
   }
 
   span {
-    margin-bottom: 1em;
+    font-size: large;
+    // margin-bottom: 1em;
     display: block;
     line-height: 1.2em;
   }
 }
 
 $colors: (
-        "pink": $pink-400,
-        "green": $green-400,
-        "blue": $blue-400,
-        "red": $red-400,
-        "purple": $purple-400
+  "pink": $pink-400,
+  "green": $green-400,
+  "blue": $blue-400,
+  "red": $red-400,
+  "purple": $purple-400
 );
 
 @each $color-name,
@@ -136,7 +144,6 @@ $color in $colors {
 
     @media (prefers-color-scheme: dark) {
       background: radial-gradient($color, color.adjust($color, $lightness: -10%));
-      color: map-get($themes, "dark", text-2);
       box-shadow: 0px 0px 15px 0px color.adjust($color, $lightness: -5%, $alpha: -0.2);
 
       &:active {
@@ -154,7 +161,7 @@ $color in $colors {
     width: 60%;
     border-radius: 50px;
     background: linear-gradient(map-get($themes, "light", body), map-get($themes, "light", body)) padding-box,
-    linear-gradient(45deg, color.adjust($color, $lightness: 10%), color.adjust($color, $lightness: 20%)) border-box;
+      linear-gradient(45deg, color.adjust($color, $lightness: 10%), color.adjust($color, $lightness: 20%)) border-box;
     border: 3px solid transparent;
     box-shadow: 0px 0px 10px 2px color.adjust($color, $alpha: -0.5);
 
@@ -164,29 +171,9 @@ $color in $colors {
 
     @media (prefers-color-scheme: dark) {
       background: linear-gradient(map-get($themes, "dark", body), map-get($themes, "dark", body)) padding-box,
-      linear-gradient(45deg, color.adjust($color, $lightness: -15%), color.adjust($color, $lightness: -25%)) border-box;
+        linear-gradient(45deg, color.adjust($color, $lightness: -15%), color.adjust($color, $lightness: -25%)) border-box;
       box-shadow: 0px 0px 10px 2px color.adjust($color, $lightness: -5%, $alpha: -0.5);
     }
-  }
-
-  .cell-#{$color-name} {
-    @include text;
-
-    text-align: left;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0px 0px 5px 2px color.adjust($color, $alpha: -0.5);
-    padding: 5px;
-    //flex: 150px;
-    background: radial-gradient(color.adjust($color, $alpha: -0.75), transparent);
-
-    @media (prefers-color-scheme: dark) {
-      background: radial-gradient(color.adjust($color, $alpha: -0.9), transparent);
-    }
-  }
-
-  .col-12 {
-    text-align: center;
   }
 
   .glow-card-#{$color-name} {
@@ -201,7 +188,7 @@ $color in $colors {
     background: radial-gradient(color.adjust($color, $alpha: -0.75), transparent);
 
     @media (prefers-color-scheme: dark) {
-      background: radial-gradient(color.adjust($color, $alpha: -0.9), transparent);
+      background: radial-gradient(transparent, color.adjust($color, $alpha: -0.9));
     }
 
     .card-info {
@@ -212,15 +199,19 @@ $color in $colors {
         display: block;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
         max-width: 250px;
         height: max-content;
+        border-radius: 20px;
       }
 
       .card-text {
         @include text-styles;
+        max-height: 300px;
+        overflow: hidden;
       }
     }
-
 
     .buttons {
       margin-left: 5px;
@@ -234,9 +225,11 @@ $color in $colors {
       }
 
       .more {
-        @if $color-name != "blue" {
+        @if $color-name !="blue" {
           @extend .glow-btn-blue;
-        } @else {
+        }
+
+        @else {
           @extend .glow-btn-green;
         }
       }
@@ -245,77 +238,77 @@ $color in $colors {
         max-width: min-content;
         min-width: 5em;
         margin: 0 !important;
-
-        path {
-          fill: map-get($themes, "dark", text);
-
-          @media (prefers-color-scheme: dark) {
-            fill: map-get($themes, "dark", text-2);
-          }
-        }
       }
     }
   }
 }
 
-.delete-button {
-  @extend .buttons;
-  margin-left: 0;
-  position: center;
+#finder {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  @include media-breakpoint-down(md) {
+    grid-template-columns: 1fr;
+  }
 }
 
-
-.material-nav {
-  background-color: map-get($themes, "light", body);
-  box-shadow: 0px 0px 5px 2px #0000001A;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: map-get($themes, "dark", body);
+#top-elements {
+  justify-content: center;
+  position: relative;
+  #find-field {
+    @extend .glow-text-form-pink;
   }
+  #find-button {
+    @extend .glow-btn-blue;
+    #find-button-text {
+      display: inline-block;
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+    #find-button-icon {
+      display: none;
+      @include media-breakpoint-down(md) {
+        display: inline-block;
+      }
+    }
+  }
+  #show-calendar {
+    @extend .glow-btn-green;
+    position: relative;
+    @include media-breakpoint-down(md) {
+      display: block;
+      position: fixed;
+      bottom: 64px;
+      right: 0;
+    }
+  }
+  #show-filters {
+    @extend .glow-btn-red;
+    display: none;
+    position: relative;
+    @include media-breakpoint-down(md) {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}
+
+path {
+  fill: map-get($themes, "dark", text);
 }
 
 .box {
   display: flex;
   flex-wrap: wrap;
-  flex: auto;
-  gap: 10px;
-  padding: 10px;
-  flex-shrink: 0;
-  flex-grow: 1;
-  //min-width: 400px;
-}
-
-.row {
-  flex-shrink: 0;
-  flex-grow: 1;
-  flex-basis: 100px;
-  @media all and (max-width: 700px) {
-    width: 100%;
-  }
-}
-
-.offcanvas-size-xl {
-  --#{$prefix}offcanvas-width: min(95vw, 600px) !important;
-}
-
-.offcanvas-size-xxl {
-  --#{$prefix}offcanvas-width: min(95vw, 80%) !important;
-}
-
-.offcanvas-size-md { /* add Responsivenes to default offcanvas */
-  --#{$prefix}offcanvas-width: min(95vw, 400px) !important;
-}
-
-.offcanvas-size-sm {
-  --#{$prefix}offcanvas-width: min(95vw, 250px) !important;
+  gap: 20px;
+  padding: 20px;
 }
 
 .row-cell {
   flex-shrink: 0;
   flex-grow: 1;
-  //flex-basis: 100px;
-  //margin: 5%;
-  //max-height: 100px;
 }
 
 .week {
@@ -329,18 +322,9 @@ $color in $colors {
   justify-content: center;
 }
 
-.box-main {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: baseline;
-  flex-wrap: wrap;
-  //gap: 10px;
-  //padding: 10px;
-}
-
 #med {
   @include text-styles();
+  text-align: left;
 
   .main-info {
     display: flex;
@@ -365,8 +349,14 @@ $color in $colors {
       display: block;
       margin-top: 1em;
       margin-bottom: 1em;
+      margin-left: 0;
       @extend .glow-btn-pink;
     }
+  }
+
+  button {
+    margin-left: 0;
+    @extend .glow-btn-purple;
   }
 }
 
@@ -374,14 +364,6 @@ $color in $colors {
   margin-top: 20px;
 }
 
-#farmallect {
-  font-size: xx-large;
-  font-weight: bold;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
-
-// корректность работы параметров для скролла проверялась только на хромиуме
 body {
   background: map-get($themes, "light", body);
 
