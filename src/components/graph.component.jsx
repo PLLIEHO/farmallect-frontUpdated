@@ -73,8 +73,9 @@ export default function Graph() {
             <div className="container">
                 <div id="med">
                     <div className="main-info">
-                        <img src={"https://grozny-inform.ru/LoadedImages/2020/12/01/16a0864a1b0bbeed2ee249327d6f69d9.png"}
-                             alt={"amogus"}/>
+                        <img
+                            src={"https://grozny-inform.ru/LoadedImages/2020/12/01/16a0864a1b0bbeed2ee249327d6f69d9.png"}
+                            alt={"amogus"}/>
                         <div style={{maxWidth: "400px"}}>
                             <span className="name">{response.name}</span>
                             <span className="company">{response.company}</span>
@@ -132,7 +133,7 @@ export default function Graph() {
                     </div>
                     <button onClick={() => setRedirect(true)}>Назад</button>
                     {
-                        isRedirect && <Navigate to='/' replace={true}/>
+                        isRedirect && <Navigate to='/' replace={false}/>
                     }
                 </div>
             </div>
