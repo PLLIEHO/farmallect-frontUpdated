@@ -1,10 +1,10 @@
 import React from 'react'
 import "../resources/styles.scss"
 import Cell from "./schedule_cell";
-import {Table} from "react-bootstrap";
-import {bindActionCreators} from "redux";
-import {add} from "../../actions/actions";
-import {connect} from "react-redux";
+import { Table } from "react-bootstrap";
+import { bindActionCreators } from "redux";
+import { add } from "../../actions/actions";
+import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 
 function mapStateToProps(state) {
@@ -74,10 +74,10 @@ class Schedule extends React.Component {
         console.log(tempTime)
         const csvString = tempTime.join("")
         console.log(csvString)
-        this.setState({csv: csvString})
+        this.setState({ csv: csvString })
         let data = new Blob([csvString], {
-                type: 'text/csv'
-            }),
+            type: 'text/csv'
+        }),
             csvURL = window.URL.createObjectURL(data),
             tempLink = document.createElement('a');
         tempLink.href = csvURL;
@@ -93,164 +93,165 @@ class Schedule extends React.Component {
         const numbers = [0, 1, 2, 3, 4, 5, 6]
         const time = [0, 1, 2, 3, 4, 5, 6]
         return (
-            <Table striped bordered hover>
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Понедельник</th>
-                    <th>Вторник</th>
-                    <th>Среда</th>
-                    <th>Четверг</th>
-                    <th>Пятница</th>
-                    <th>Суббота</th>
-                    <th>Воскресенье</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Перед завтраком</td>
-
-                    {
-                        numbers.map(
-                            (name, i) => (
-                                <td>{
-                                    this.props.table.table[0][name].map(
-                                        (id, j) => (
-                                            this.props.table.table[0][name][j] !== null ?
-                                                <Cell
-                                                    name={this.props.table.count[0][name][j]}
-                                                    day={name}
-                                                    time={0}
-                                                    id={id}
-                                                    funct={this.deleteHandler}
-                                                >{console.log(this.props.table.table[0][0][0])}</Cell> :
-                                                <>-</>
-                                        )
+            <div>
+                <Table hover responsive>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Понедельник</th>
+                            <th>Вторник</th>
+                            <th>Среда</th>
+                            <th>Четверг</th>
+                            <th>Пятница</th>
+                            <th>Суббота</th>
+                            <th>Воскресенье</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Перед завтраком</td>
+                            {
+                                numbers.map(
+                                    (name, i) => (
+                                        <td className='cell-box'>{
+                                            this.props.table.table[0][name].map(
+                                                (id, j) => (
+                                                    this.props.table.table[0][name][j] !== null ?
+                                                        <Cell
+                                                            name={this.props.table.count[0][name][j]}
+                                                            day={name}
+                                                            time={0}
+                                                            id={id}
+                                                            funct={this.deleteHandler}
+                                                        >{console.log(this.props.table.table[0][0][0])}</Cell> :
+                                                        <>-</>
+                                                )
+                                            )
+                                        }</td>
                                     )
-                                }</td>
-                            )
-                        )
-                    }
-                </tr>
-                <tr>
-                    <td>После завтрака</td>
-                    {
-                        numbers.map(
-                            (name, i) => (
-                                <td>{
-                                    this.props.table.table[1][name].map(
-                                        (id, j) => (
-                                            this.props.table.table[1][name][j] !== null ?
-                                                <Cell name={this.props.table.count[1][name][j]}
-                                                      day={name}
-                                                      time={1}
-                                                      id={id}
-                                                      funct={this.deleteHandler}
-                                                ></Cell> :
-                                                <>-</>
-                                        )
+                                )
+                            }
+                        </tr>
+                        <tr>
+                            <td>После завтрака</td>
+                            {
+                                numbers.map(
+                                    (name, i) => (
+                                        <td className='cell-box'>{
+                                            this.props.table.table[1][name].map(
+                                                (id, j) => (
+                                                    this.props.table.table[1][name][j] !== null ?
+                                                        <Cell name={this.props.table.count[1][name][j]}
+                                                            day={name}
+                                                            time={1}
+                                                            id={id}
+                                                            funct={this.deleteHandler}
+                                                        ></Cell> :
+                                                        <>-</>
+                                                )
+                                            )
+                                        }</td>
                                     )
-                                }</td>
-                            )
-                        )
-                    }
-                </tr>
-                <tr>
-                    <td>Перед обедом</td>
-                    {
-                        numbers.map(
-                            (name, i) => (
-                                <td>{
-                                    this.props.table.table[2][name].map(
-                                        (id, j) => (
-                                            this.props.table.table[2][name][j] !== null ?
-                                                <Cell name={this.props.table.count[2][name][j]}
-                                                      day={name}
-                                                      time={2}
-                                                      id={id}
-                                                      funct={this.deleteHandler}
-                                                ></Cell> :
-                                                <>-</>
-                                        )
+                                )
+                            }
+                        </tr>
+                        <tr>
+                            <td>Перед обедом</td>
+                            {
+                                numbers.map(
+                                    (name, i) => (
+                                        <td className='cell-box'>{
+                                            this.props.table.table[2][name].map(
+                                                (id, j) => (
+                                                    this.props.table.table[2][name][j] !== null ?
+                                                        <Cell name={this.props.table.count[2][name][j]}
+                                                            day={name}
+                                                            time={2}
+                                                            id={id}
+                                                            funct={this.deleteHandler}
+                                                        ></Cell> :
+                                                        <>-</>
+                                                )
+                                            )
+                                        }</td>
                                     )
-                                }</td>
-                            )
-                        )
-                    }
-                </tr>
-                <tr>
-                    <td>После обеда</td>
-                    {
-                        numbers.map(
-                            (name, i) => (
-                                <td>{
-                                    this.props.table.table[3][name].map(
-                                        (id, j) => (
-                                            this.props.table.table[3][name][j] !== null ?
-                                                <Cell name={this.props.table.count[3][name][j]}
-                                                      day={name}
-                                                      time={3}
-                                                      id={id}
-                                                      funct={this.deleteHandler}
-                                                ></Cell> :
-                                                <>-</>
-                                        )
+                                )
+                            }
+                        </tr>
+                        <tr>
+                            <td>После обеда</td>
+                            {
+                                numbers.map(
+                                    (name, i) => (
+                                        <td className='cell-box'>{
+                                            this.props.table.table[3][name].map(
+                                                (id, j) => (
+                                                    this.props.table.table[3][name][j] !== null ?
+                                                        <Cell name={this.props.table.count[3][name][j]}
+                                                            day={name}
+                                                            time={3}
+                                                            id={id}
+                                                            funct={this.deleteHandler}
+                                                        ></Cell> :
+                                                        <>-</>
+                                                )
+                                            )
+                                        }</td>
                                     )
-                                }</td>
-                            )
-                        )
-                    }
-                </tr>
-                <tr>
-                    <td>Перед ужином</td>
-                    {
-                        numbers.map(
-                            (name, i) => (
-                                <td>{
-                                    this.props.table.table[4][name].map(
-                                        (id, j) => (
-                                            this.props.table.table[4][name][j] !== null ?
-                                                <Cell name={this.props.table.count[4][name][j]}
-                                                      day={name}
-                                                      time={4}
-                                                      id={id}
-                                                      funct={this.deleteHandler}
-                                                ></Cell> :
-                                                <>-</>
-                                        )
+                                )
+                            }
+                        </tr>
+                        <tr>
+                            <td>Перед ужином</td>
+                            {
+                                numbers.map(
+                                    (name, i) => (
+                                        <td className='cell-box'>{
+                                            this.props.table.table[4][name].map(
+                                                (id, j) => (
+                                                    this.props.table.table[4][name][j] !== null ?
+                                                        <Cell name={this.props.table.count[4][name][j]}
+                                                            day={name}
+                                                            time={4}
+                                                            id={id}
+                                                            funct={this.deleteHandler}
+                                                        ></Cell> :
+                                                        <>-</>
+                                                )
+                                            )
+                                        }</td>
                                     )
-                                }</td>
-                            )
-                        )
-                    }
-                </tr>
-                <tr>
-                    <td>После ужина</td>
-                    {
-                        numbers.map(
-                            (name, i) => (
-                                <td>{
-                                    this.props.table.table[5][name].map(
-                                        (id, j) => (
-                                            <Cell
-                                                day={name}
-                                                time={5}
-                                                id={id}
-                                                key={j}
-                                                funct={this.deleteHandler}
-                                                name={this.props.table.count[5][name][j]}></Cell>
-                                        )
+                                )
+                            }
+                        </tr>
+                        <tr>
+                            <td>После ужина</td>
+                            {
+                                numbers.map(
+                                    (name, i) => (
+                                        <td className='cell-box'>{
+                                            this.props.table.table[5][name].map(
+                                                (id, j) => (
+                                                    <Cell
+                                                        day={name}
+                                                        time={5}
+                                                        id={id}
+                                                        key={j}
+                                                        funct={this.deleteHandler}
+                                                        name={this.props.table.count[5][name][j]}></Cell>
+                                                )
+                                            )
+                                        }</td>
                                     )
-                                }</td>
-                            )
-                        )
-                    }
-                </tr>
-                </tbody>
-                <tfoot>
-                <Button onClick={this.downloadHandler}>Скачать в формате .csv</Button>
-                </tfoot>
-            </Table>
+                                )
+                            }
+                        </tr>
+                    </tbody>
+                </Table>
+                <div className='justify-content-center d-flex d-md-block'>
+                    <button className='glow-btn-blue' onClick={this.downloadHandler}>Скачать в формате .csv</button>
+                </div>
+            </div>
         )
     }
 }

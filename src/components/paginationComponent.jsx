@@ -8,74 +8,30 @@ class PaginationComponent extends React.Component {
         super(props);
     }
 
-
     render() {
-        let pages = [];
-        for (let j = 1; j <= this.props.pages; j++) {
-            pages[j - 1] = j;
+        let limit = 5;
+        let min_page = Math.max(1, this.props.currentPage - parseInt(limit / 2));
+        let max_page = Math.min(this.props.currentPage + parseInt(limit / 2), this.props.pages);
+        let toRender = [];
+        if (min_page != 1) {
+            toRender.push(<Pagination.First onClick={() => this.props.function(1)}/>);
         }
-        let toRender;
-        if (pages.length < 6) {
-            toRender =
-                <>
-                    {
-                        pages.map(
-                            (i) => i !== this.props.currentPage ?
-                                <Pagination.Item onClick={() => this.props.function(i)}>{i}</Pagination.Item> :
-                                <Pagination.Item active>{i}</Pagination.Item>
-                        )
-                    }
-                </>
-        } else if (this.props.currentPage === pages[0]) {
-            toRender =
-                <>
-
-                    <Pagination.Item active>{this.props.currentPage}</Pagination.Item>
-                    <Pagination.Item value={this.props.currentPage + 1}
-                                     onClick={() => this.props.function(this.props.currentPage + 1)}>{this.props.currentPage + 1}</Pagination.Item>
-                    <Pagination.Item value={this.props.currentPage + 2}
-                                     onClick={() => this.props.function(this.props.currentPage + 2)}>{this.props.currentPage + 2}</Pagination.Item>
-                    <Pagination.Ellipsis disabled/>
-
-                </>
-
-        } else if (this.props.currentPage < pages.length) {
-            toRender =
-                <>
-
-                    <Pagination.Ellipsis disabled/>
-                    <Pagination.Item
-                        value={this.props.currentPage - 1}
-                        onClick={() => this.props.function(this.props.currentPage - 1)}>{this.props.currentPage - 1}</Pagination.Item>
-                    <Pagination.Item active>{this.props.currentPage}</Pagination.Item>
-                    <Pagination.Item
-                        value={this.props.currentPage + 1}
-                        onClick={() => this.props.function(this.props.currentPage + 1)}>{this.props.currentPage + 1}</Pagination.Item>
-                    <Pagination.Ellipsis disabled/>
-
-                </>
-
-        } else {
-            toRender =
-                <>
-                    <Pagination.Ellipsis disabled/>
-                    <Pagination.Item
-                        value={this.props.currentPage - 2}
-                        onClick={() => this.props.function(this.props.currentPage - 2)}>{this.props.currentPage - 2}</Pagination.Item>
-                    <Pagination.Item
-                        value={this.props.currentPage - 1}
-                        onClick={() => this.props.function(this.props.currentPage - 1)}>{this.props.currentPage - 1}</Pagination.Item>
-                    <Pagination.Item active>{this.props.currentPage}</Pagination.Item>
-
-                </>
-
+        for (let j = min_page; j <= max_page; ++j) {
+            if (this.props.currentPage == j) {
+                toRender.push(<Pagination.Item active>{j}</Pagination.Item>);
+            } else {
+                toRender.push(<Pagination.Item value={j} onClick={() => this.props.function(j)}>{j}</Pagination.Item>);
+            }
+        }
+        if (max_page != this.props.pages) {
+            toRender.push(<Pagination.Last onClick={() => this.props.function(this.props.pages)}/>);
         }
         return (
-            <Pagination>
-                <Pagination.First onClick={() => this.props.function(1)}/>
-                {toRender}
-                <Pagination.Last onClick={() => this.props.function(this.props.pages)}/>
-            </Pagination>
+            <nav>
+                <Pagination className="glow-pagination-pink justify-content-center">
+                    {toRender}
+                </Pagination>
+            </nav>
         )
     }
 }

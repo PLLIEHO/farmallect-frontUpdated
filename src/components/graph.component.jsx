@@ -73,7 +73,7 @@ export default function Graph() {
             <div className="container">
                 <div id="med">
                     <div className="main-info">
-                        <img src={"https://e7.pngegg.com/pngimages/102/271/png-clipart-pills-pills.png"}
+                        <img src={"https://grozny-inform.ru/LoadedImages/2020/12/01/16a0864a1b0bbeed2ee249327d6f69d9.png"}
                              alt={"amogus"}/>
                         <div style={{maxWidth: "400px"}}>
                             <span className="name">{response.name}</span>

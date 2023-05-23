@@ -2,7 +2,7 @@
 @use "sass:color";
 @use "sass:map";
 
-$offcanvas-vertical-height: 80%;
+$offcanvas-vertical-height: 92%;
 $offcanvas-horizontal-width: 80%;
 @import 'node_modules/bootstrap/scss/bootstrap';
 
@@ -20,13 +20,19 @@ $offsetFactor: 3;
   @if $level ==1 {
     @if $luminace >0.5 {
       @return $gray-800;
-    } @else {
+    }
+
+    @else {
       @return $gray-300;
     }
-  } @else if $level ==2 {
+  }
+
+  @else if $level ==2 {
     @if $luminace >0.5 {
       @return $gray-600;
-    } @else {
+    }
+
+    @else {
       @return $gray-500;
     }
   }
@@ -34,14 +40,14 @@ $offsetFactor: 3;
 
 @function make-theme($theme, $color) {
   $map: (body: $color,
-          text: contrastColor($color, 1),
-          text-2: contrastColor($color, 2));
+    text: contrastColor($color, 1),
+    text-2: contrastColor($color, 2));
   @return $map;
 }
 
 $theme-names: (
-        "light": #fafafa,
-        "dark": #383838
+  "light": #fafafa,
+  "dark": #383838
 );
 
 $themes: (
@@ -103,18 +109,17 @@ $color in $theme-names {
 
   span {
     font-size: large;
-    // margin-bottom: 1em;
     display: block;
     line-height: 1.2em;
   }
 }
 
 $colors: (
-        "pink": $pink-400,
-        "green": $green-400,
-        "blue": $blue-400,
-        "red": $red-400,
-        "purple": $purple-400
+  "pink": $pink-400,
+  "green": $green-400,
+  "blue": $blue-400,
+  "red": $red-400,
+  "purple": $purple-400
 );
 
 @each $color-name,
@@ -157,7 +162,7 @@ $color in $colors {
     width: 60%;
     border-radius: 50px;
     background: linear-gradient(map-get($themes, "light", body), map-get($themes, "light", body)) padding-box,
-    linear-gradient(45deg, color.adjust($color, $lightness: 10%), color.adjust($color, $lightness: 20%)) border-box;
+      linear-gradient(45deg, color.adjust($color, $lightness: 10%), color.adjust($color, $lightness: 20%)) border-box;
     border: 3px solid transparent;
     box-shadow: 0px 0px 10px 2px color.adjust($color, $alpha: -0.5);
 
@@ -167,7 +172,7 @@ $color in $colors {
 
     @media (prefers-color-scheme: dark) {
       background: linear-gradient(map-get($themes, "dark", body), map-get($themes, "dark", body)) padding-box,
-      linear-gradient(45deg, color.adjust($color, $lightness: -15%), color.adjust($color, $lightness: -25%)) border-box;
+        linear-gradient(45deg, color.adjust($color, $lightness: -15%), color.adjust($color, $lightness: -25%)) border-box;
       box-shadow: 0px 0px 10px 2px color.adjust($color, $lightness: -5%, $alpha: -0.5);
     }
   }
@@ -179,9 +184,10 @@ $color in $colors {
     border-radius: 20px;
     border: none;
     box-shadow: 0px 0px 10px 2px color.adjust($color, $alpha: -0.5);
-    padding: 10px;
+    padding: 10px 10px 70px 10px;
     flex: 300px;
     background: radial-gradient(color.adjust($color, $alpha: -0.75), transparent);
+    position: relative;
 
     @media (prefers-color-scheme: dark) {
       background: radial-gradient(transparent, color.adjust($color, $alpha: -0.9));
@@ -215,6 +221,8 @@ $color in $colors {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      position: absolute;
+      bottom: 10px;
 
       .cal {
         @extend .glow-btn-#{$color-name};
@@ -223,7 +231,9 @@ $color in $colors {
       .more {
         @if $color-name !="blue" {
           @extend .glow-btn-blue;
-        } @else {
+        }
+
+        @else {
           @extend .glow-btn-green;
         }
       }
@@ -235,14 +245,157 @@ $color in $colors {
       }
     }
   }
+
+  .glow-pagination-#{$color-name} {
+    border-radius: 24px;
+    display: inline-flex;
+    box-shadow: 0px 0px 20px 0px color.adjust($color, $alpha: -0.2);
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0px 0px 15px 0px color.adjust($color, $lightness: -5%, $alpha: -0.2);
+    }
+
+    .page-item {
+      &:first-child .page-link {
+        padding-left: 15px;
+        border-top-left-radius: 24px;
+        border-bottom-left-radius: 24px;
+      }
+
+      &:last-child .page-link {
+        padding-right: 15px;
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+      }
+
+      .page-link {
+        color: map-get($themes, "dark", text);
+        background-color: color.adjust($color, $lightness: 10%);
+        border: none;
+
+        @media (prefers-color-scheme: dark) {
+          background-color: color.adjust($color, $lightness: -10%);
+        }
+
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+
+    .page-item.active .page-link {
+      background-color: color.adjust($color, $lightness: 14%);
+
+      @media (prefers-color-scheme: dark) {
+        background-color: color.adjust($color, $lightness: -18%);
+      }
+    }
+  }
+
+  .glow-border-#{$color-name} {
+    box-shadow: 0px 0px 10px 2px color.adjust($color, $alpha: -0.5);
+  }
 }
 
 #finder {
   display: grid;
   grid-template-columns: 300px 1fr;
+
+  #filter-menu {
+    margin-left: 15px;
+  }
+
   @include media-breakpoint-down(md) {
     grid-template-columns: 1fr;
   }
+}
+
+.offcanvas-bottom {
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
+.offcanvas, .offcanvas-md {
+  --#{$prefix}offcanvas-bg: #{map-get($themes, "light", body)};
+  --#{$prefix}offcanvas-color: #{map-get($themes, "light", text)};
+
+  @media (prefers-color-scheme: dark) {
+    --#{$prefix}offcanvas-bg: #{map-get($themes, "dark", body)};
+    --#{$prefix}offcanvas-color: #{map-get($themes, "dark", text)};
+  }
+
+  .offcanvas-body {
+    padding: 10px;
+
+    .accordion {
+      @include text;
+      @extend .glow-border-pink;
+      border-radius: 15px;
+      --#{$prefix}accordion-bg: #{map-get($themes, "light", body)};
+      --#{$prefix}accordion-btn-bg: #{map-get($themes, "light", body)};
+      --#{$prefix}accordion-color: #{map-get($themes, "light", text)};
+      --#{$prefix}accordion-btn-color: #{map-get($themes, "light", text)};
+      --#{$prefix}accordion-border-color: #{map-get($themes, "light", body)};
+      --#{$prefix}accordion-btn-focus-box-shadow: transparent;
+      --#{$prefix}accordion-active-bg: #{color.adjust(map-get($colors, "pink"), $lightness: 20%)};
+      --#{$prefix}accordion-active-color: #{color.adjust(map-get($colors, "pink"), $lightness: -10%)};
+      --#{$prefix}accordion-btn-icon: url('./more.svg');
+      --#{$prefix}accordion-btn-active-icon: url('./more.svg');
+
+      @media (prefers-color-scheme: dark) {
+        --#{$prefix}accordion-bg: #{map-get($themes, "dark", body)};
+        --#{$prefix}accordion-btn-bg: #{map-get($themes, "dark", body)};
+        --#{$prefix}accordion-color: #{map-get($themes, "dark", text)};
+        --#{$prefix}accordion-btn-color: #{map-get($themes, "dark", text)};
+        --#{$prefix}accordion-border-color: #{map-get($themes, "dark", body)};
+        --#{$prefix}accordion-active-bg: #{map-get($colors, "pink")};
+        --#{$prefix}accordion-active-color: #{map-get($themes, "dark", text)};
+      }
+      
+      .accordion-button::after {
+        border-radius: 100%;
+        background-color: map-get($themes, "dark", text);
+        @media (prefers-color-scheme: dark) {
+          background-color: map-get($themes, "dark", text-2);
+        }
+      }
+      
+      .accordion-item {
+        .form-check-input {
+          &:focus {
+            box-shadow: 0 0 0 0.25rem color.adjust(map-get($colors, "pink"), $alpha: -0.75);
+          }
+          &:checked {
+            background-color: map-get($colors, "pink");
+            border-color: map-get($colors, "pink");
+          }
+        }
+      }
+      .accordion-item:first-child {
+
+        &,
+        .accordion-button {
+          border-top-right-radius: 15px;
+          border-top-left-radius: 15px;
+        }
+      }
+
+      .accordion-item:last-child {
+
+        &,
+        .accordion-button.collapsed {
+          border-bottom-right-radius: 15px;
+          border-bottom-left-radius: 15px;
+        }
+      }
+    }
+  }
+}
+
+.btn-close {
+  --#{$prefix}btn-close-bg: url('./close-btn.svg');
+  background-color: map-get($themes, "dark", text);
 }
 
 #top-elements {
@@ -258,6 +411,7 @@ $color in $colors {
 
     #find-button-text {
       display: inline-block;
+
       @include media-breakpoint-down(md) {
         display: none;
       }
@@ -265,6 +419,7 @@ $color in $colors {
 
     #find-button-icon {
       display: none;
+
       @include media-breakpoint-down(md) {
         display: inline-block;
       }
@@ -274,6 +429,8 @@ $color in $colors {
   #show-calendar {
     @extend .glow-btn-green;
     position: relative;
+    z-index: 100;
+
     @include media-breakpoint-down(md) {
       display: block;
       position: fixed;
@@ -286,6 +443,8 @@ $color in $colors {
     @extend .glow-btn-red;
     display: none;
     position: relative;
+    z-index: 100;
+
     @include media-breakpoint-down(md) {
       display: block;
       position: fixed;
@@ -295,8 +454,113 @@ $color in $colors {
   }
 }
 
-path {
-  fill: map-get($themes, "dark", text);
+.table {
+  --#{$prefix}table-color: #{map-get($themes, "light", text)};
+  --#{$prefix}table-border-color: #{map-get($themes, "light", text-2)};
+  --#{$prefix}table-hover-color: #{map-get($themes, "light", text)};
+
+  @media (prefers-color-scheme: dark) {
+    --#{$prefix}table-color: #{map-get($themes, "dark", text)};
+    --#{$prefix}table-border-color: #{map-get($themes, "light", text-2)};
+    --#{$prefix}table-hover-color: #{map-get($themes, "dark", text)};
+  }
+
+  tr:first-child {
+    width: min-content;
+  }
+
+  th {
+    text-align: center;
+  }
+}
+
+.cell-box {
+  flex-wrap: wrap;
+  .cell {
+    position: relative;
+    margin: 5px;
+    min-width: 150px;
+    max-height: 64px;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    font-weight: 600;
+    color: map-get($themes, "light", text);
+    background-color: color.adjust(map-get($colors, "pink"), $lightness: 15%);
+    path {
+      fill: map-get($themes, "light", text);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      color: map-get($themes, "dark", text);
+      background-color: map-get($colors, "pink");
+      path {
+        fill: map-get($themes, "dark", text);
+      }
+    }
+
+    span {
+      display: block;
+      margin-left: 5px;
+      margin-right: 30px;
+      word-wrap: break-word;
+    }
+    button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+    }
+  }
+}
+
+.modal-content {
+  background-color: map-get($themes, "light", body);
+  @media (prefers-color-scheme: dark) {
+    background-color: map-get($themes, "dark", body);
+  }
+}
+
+#add-table {
+  td {
+    text-align: center;
+    button {
+      background: none;
+      border-style: solid;
+      border-width: 3px;
+      border-color: map-get($colors, "pink");
+      border-radius: 100%;
+      aspect-ratio: 1 / 1;
+      path {
+        fill: map-get($themes, "light", text);
+        @media (prefers-color-scheme: dark) {
+          fill: map-get($themes, "dark", text);
+        }
+      }
+    }
+  }
+}
+
+.toast {
+  --#{$prefix}toast-bg: #{map-get($themes, "light", body)};
+  --#{$prefix}toast-header-color: #{map-get($themes, "light", text)};
+  --#{$prefix}toast-header-bg: #{map-get($themes, "light", body)};
+
+  @media (prefers-color-scheme: dark) {
+    --#{$prefix}toast-bg: #{map-get($themes, "dark", body)};
+    --#{$prefix}toast-header-color: #{map-get($themes, "dark", text)};
+    --#{$prefix}toast-header-bg: #{map-get($themes, "dark", body)};
+  }
+}
+
+#left-filters {
+  position: relative;
+  #drop-filters {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 .box {
@@ -306,20 +570,8 @@ path {
   padding: 20px;
 }
 
-.row-cell {
-  flex-shrink: 0;
-  flex-grow: 1;
-}
-
-.week {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.pillar {
-  display: flex;
-  justify-content: center;
+path {
+  fill: map-get($themes, "dark", text);
 }
 
 #med {
