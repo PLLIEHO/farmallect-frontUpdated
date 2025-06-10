@@ -215,35 +215,35 @@ $color in $colors {
       }
     }
 
-    .buttons {
-      margin-left: 5px;
-      margin-bottom: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      position: absolute;
-      bottom: 10px;
-
-      .cal {
-        @extend .glow-btn-#{$color-name};
-      }
-
-      .more {
-        @if $color-name !="blue" {
-          @extend .glow-btn-blue;
-        }
-
-        @else {
-          @extend .glow-btn-green;
-        }
-      }
-
-      button {
-        max-width: min-content;
-        min-width: 5em;
-        margin: 0 !important;
-      }
-    }
+    //.buttons {
+    //  margin-left: 5px;
+    //  margin-bottom: 5px;
+    //  display: flex;
+    //  flex-wrap: wrap;
+    //  gap: 10px;
+    //  position: absolute;
+    //  bottom: 10px;
+    //
+    //  .cal {
+    //    @extend .glow-btn-#{$color-name};
+    //  }
+    //
+    //  .more {
+    //    @if $color-name !="blue" {
+    //      @extend .glow-btn-blue;
+    //    }
+    //
+    //    @else {
+    //      @extend .glow-btn-green;
+    //    }
+    //  }
+    //
+    //  button {
+    //    max-width: min-content;
+    //    min-width: 5em;
+    //    margin: 0 !important;
+    //  }
+    //}
   }
 
   .glow-pagination-#{$color-name} {
@@ -303,7 +303,7 @@ $color in $colors {
   grid-template-columns: 300px 1fr;
 
   #filter-menu {
-    margin-left: 15px;
+
   }
 
   @include media-breakpoint-down(md) {
@@ -439,6 +439,19 @@ $color in $colors {
     }
   }
 
+  #show-sorting {
+    @extend .glow-btn-green;
+    position: relative;
+    z-index: 100;
+
+    @include media-breakpoint-down(md) {
+      display: block;
+      position: fixed;
+      bottom: 64px;
+      right: 0;
+    }
+  }
+
   #show-filters {
     @extend .glow-btn-red;
     display: none;
@@ -525,20 +538,6 @@ $color in $colors {
 #add-table {
   td {
     text-align: center;
-    button {
-      background: none;
-      border-style: solid;
-      border-width: 3px;
-      border-color: map-get($colors, "pink");
-      border-radius: 100%;
-      aspect-ratio: 1 / 1;
-      path {
-        fill: map-get($themes, "light", text);
-        @media (prefers-color-scheme: dark) {
-          fill: map-get($themes, "dark", text);
-        }
-      }
-    }
   }
 }
 
@@ -625,4 +624,12 @@ body {
 
   @include text;
   overflow: overlay;
+}
+
+.custom-filter {
+    display: flex;
+}
+
+#custom-input {
+    width: 100px
 }

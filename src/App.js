@@ -1,11 +1,10 @@
 import './App.css';
 import Main from './components/main'
-import Graph from "./components/graph.component";
-import Schedule from "./components/schedule/schedule";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {createStore} from "redux";
 import allReducers from "./reducers";
 import {Provider} from "react-redux";
+import NotFound from "./notfound.component";
 
 const router = createBrowserRouter(
     [
@@ -14,8 +13,8 @@ const router = createBrowserRouter(
             element: <Main/>,
         },
         {
-            path: "/:id",
-            element: <Graph/>
+            path: "*",
+            element: <NotFound/>
         }
     ],
     {
